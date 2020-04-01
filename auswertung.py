@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+import matplotlib.ticker as ticker
 
 # %%----- load data --------
 confirmed_series = pd.read_csv(
@@ -39,8 +40,8 @@ ax1.set_title('confirmed')
 ax2.set_title('deaths')
 ax3.set_title('confirmed')
 ax4.set_title('deaths')
-# for ax in axes.flatten():
-#    ax.xaxis.set_major_locator(ticker.MaxNLocator(4))
+for ax in axes.flatten():
+    ax.xaxis.set_major_locator(ticker.MaxNLocator(4))
 for i, id in enumerate(deaths_c.index):
     data1 = conf_c.loc[id]
     data2 = deaths_c.loc[id]
@@ -52,6 +53,6 @@ plt.legend()
 plt.tight_layout()
 plt.show()
 
-ger = confirmed.loc['China']
-changes = ger.values[1:]-ger.values[:-1]
-plt.plot(ger.index[1:], changes)
+#ger = confirmed.loc['China']
+#changes = ger.values[1:]-ger.values[:-1]
+#plt.plot(ger.index[1:], changes)
