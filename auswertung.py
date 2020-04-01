@@ -20,3 +20,6 @@ for i, country in enumerate(countries):
     # ax.xaxis.x
 plt.legend()
 plt.show()
+
+# %% ------- display deaths and cofirmed cases
+start_date =
