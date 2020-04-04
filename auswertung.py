@@ -10,7 +10,6 @@ deaths_series = pd.read_csv(
     'csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv')
 confirmed = confirmed_series.groupby('Country/Region').sum().drop(columns=['Lat', 'Long'])
 deaths = deaths_series.groupby('Country/Region').sum().drop(columns=['Lat', 'Long'])
-deaths.columns
 
 # %% add death rate column
 print('use sum')
@@ -64,6 +63,10 @@ for ax in axes.flatten():
 plt.tight_layout()
 plt.show()
 
+
+# %% new cell
 #ger = confirmed.loc['China']
 #changes = ger.values[1:]-ger.values[:-1]
 #plt.plot(ger.index[1:], changes)
+
+deaths[confirmed.iloc[:, -1] > 20000].iloc[:, -3:]
