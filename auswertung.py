@@ -8,11 +8,23 @@ confirmed_series = pd.read_csv(
     'csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv')
 deaths_series = pd.read_csv(
     'csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv')
+# group by countries
 confirmed = confirmed_series.groupby('Country/Region').sum().drop(columns=['Lat', 'Long'])
 deaths = deaths_series.groupby('Country/Region').sum().drop(columns=['Lat', 'Long'])
 
-# %% add death rate column
-print('use sum')
+# %% evaluate USA
+us = pd.read_csv(
+    'csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_US.csv')
+us[us['Province_State'].str.startswith('New')]
+us_by_state = us.groupby(by='Province_State', as_index=True).sum()
+us_by_state
+
+# look at New York
+ny = us_by_state.loc['New York', '2/20/20':'4/7/20']
+plt.plot(ny.index, ny.values, label='NY')
+plt.plot(confirmed.loc['Germany', '2/20/20':'4/7/20'])
+plt.legend()
+plt.show()
 
 # %% ------ plot evolution of cases ------
 countries = ['Germany', 'Italy', 'Spain', 'France', 'US', 'United Kingdom', 'China']
@@ -26,11 +38,12 @@ for i, country in enumerate(countries):
 plt.legend()
 plt.show()
 
+
 # %% ------- display deaths and cofirmed cases
 
 # extract data for wanted time span
 start_date = '1/22/20'
-end_date = '4/1/20'
+end_date = deaths.columns[-1]
 deaths_c = deaths.loc[countries, start_date:end_date]
 conf_c = confirmed.loc[countries, start_date:end_date]
 
