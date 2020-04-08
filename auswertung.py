@@ -73,7 +73,7 @@ for i, id in enumerate(deaths_c.index):
     ax3.plot(data1.index, np.log(data1.values), label=id)
     ax4.plot(data2.index, np.log(data2.values), label=id)
     # plt.legend()
-
+axes
 for ax in axes.flatten():
     ax.xaxis.set_major_locator(plt.MaxNLocator(5))
     ax.legend()
