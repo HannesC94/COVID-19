@@ -11,6 +11,10 @@ deaths_series = pd.read_csv(
 # group by countries
 confirmed = confirmed_series.groupby('Country/Region').sum().drop(columns=['Lat', 'Long'])
 deaths = deaths_series.groupby('Country/Region').sum().drop(columns=['Lat', 'Long'])
+death_rate = (deaths/confirmed).replace([np.inf], np.nan)
+
+inf = death_rate.loc['Vietnam', '1/23/20']
+death_rate.loc[['Germany', 'US', 'Italy', 'Spain'], '4/7/20'].sort_values()
 
 # %% evaluate USA
 us = pd.read_csv(
