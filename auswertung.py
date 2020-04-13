@@ -30,8 +30,9 @@ plt.plot(confirmed.loc['Germany', '2/20/20':'4/7/20'])
 plt.legend()
 plt.show()
 
-# %% ------ plot evolution of cases ------
-countries = ['Germany', 'Italy', 'Spain', 'France', 'US', 'United Kingdom', 'China']
+# %% ------ plot evolution of cases -----
+
+countries = ['Germany', 'Italy', 'France', 'US', 'United Kingdom']
 
 fig, ax = plt.subplots(1)
 for i, country in enumerate(countries):
