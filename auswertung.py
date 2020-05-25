@@ -12,13 +12,14 @@ deaths_series = pd.read_csv(
 confirmed = confirmed_series.groupby('Country/Region').sum().drop(columns=['Lat', 'Long'])
 deaths = deaths_series.groupby('Country/Region').sum().drop(columns=['Lat', 'Long'])
 death_rate = (deaths/confirmed).replace([np.inf], np.nan)
-
+us = confirmed.loc['US']
+us
 inf = death_rate.loc['Vietnam', '1/23/20']
 death_rate.loc[['Germany', 'US', 'Italy', 'Spain'], '4/7/20'].sort_values()
 
 # %% evaluate USA
 us = pd.read_csv(
-    'csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_US.csv')
+    'csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_US.csv')
 us[us['Province_State'].str.startswith('New')]
 us_by_state = us.groupby(by='Province_State', as_index=True).sum()
 us_by_state
@@ -26,23 +27,24 @@ us_by_state
 # look at New York
 ny = us_by_state.loc['New York', '2/20/20':'4/7/20']
 plt.plot(ny.index, ny.values, label='NY')
-plt.plot(confirmed.loc['Germany', '2/20/20':'4/7/20'])
+plt.plot(deaths.loc['Italy', '2/20/20':'4/7/20'], label='italy')
 plt.legend()
 plt.show()
 
-# %% ------ plot evolution of cases -----
-
-countries = ['Germany', 'Italy', 'France', 'US', 'United Kingdom']
+# %% ------ plpt evolution of cases -----
+countries = ['Germany', 'Italy', 'France', 'United Kingdom', 'Brazil']
 
 fig, ax = plt.subplots(1)
 for i, country in enumerate(countries):
-    days = confirmed.loc[country].index[-30:]
-    cases = confirmed.loc[country].values[-30:]
-    ax.plot(days, np.log(cases), label=countries[i])
+    days = confirmed.loc[country].index[-50:]
+    cases = confirmed.loc[country].values[-50:]
+    tode = deaths.loc[country].values[-50:]
+    ax.plot(days, cases, label=countries[i])
+    # ax.plot(days, np.log(cases), label=countries[i])
     # ax.xaxis.x
+# ax.xaxis.set_major_locate(plt.MaxNLocator(5))
 plt.legend()
 plt.show()
-
 
 # %% ------- display deaths and cofirmed cases
 
@@ -88,3 +90,11 @@ plt.show()
 #plt.plot(ger.index[1:], changes)
 
 deaths[confirmed.iloc[:, -1] > 20000].iloc[:, -3:]
+
+# %%
+rates = death_rate.loc[countries]
+rates = rates.iloc[:, -50:]
+for country in rates.index:
+    plt.plot(rates.loc[country].values, label=country)
+plt.legend()
+plt.show()
